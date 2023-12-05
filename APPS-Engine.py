@@ -29,6 +29,9 @@ def merge_csv_files(engine_df, open_tickets_df, previous_day_df):
     columns_to_drop = merged_withsettlements.columns[column_index + 1:]
     merged_withsettlements.drop(columns=columns_to_drop, inplace=True)
 
+    merged_withsettlements.drop_duplicates(inplace=True)
+
+
     return merged_withsettlements
 
 def main():
@@ -43,17 +46,21 @@ def main():
     open_tickets_df = st.file_uploader("Upload Current Tickets CSV File", type=['csv'], key='CurrentTicket')
 
     st.write("Upload Previous Day CSV")
-    previous_day_df = st.file_uploader("Upload Current Tickets XLSX File", type=['xlsx'], key='PastTicket')
+    previous_day_files = st.file_uploader("Upload up to 10 Previous Day XLSX Files", accept_multiple_files=True, type=['xlsx'], key='PastTicket')
 
-
-    if engine_df is not None and open_tickets_df is not None and previous_day_df is not None:
+    if engine_df is not None and open_tickets_df is not None and previous_day_files is not None:
         engine_df = pd.read_csv(engine_df)
         open_tickets_df = pd.read_csv(open_tickets_df)
-        previous_day_df = pd.read_excel(previous_day_df)
+        
+        previous_day_df = pd.DataFrame()
+        for file in previous_day_files:
+            file_df = pd.read_excel(file)
+            previous_day_df = pd.concat([previous_day_df, file_df])
 
         if st.button('Merge CSV Files'):
             merged_data = merge_csv_files(engine_df, open_tickets_df, previous_day_df)
             st.markdown(get_table_download_link(merged_data), unsafe_allow_html=True)
+
 
 def get_table_download_link(df):
     csv = df.to_csv(index=False)
