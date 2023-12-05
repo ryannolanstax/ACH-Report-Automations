@@ -7,6 +7,7 @@
 import pandas as pd
 import streamlit as st
 import base64
+import openpyxl
 
 def merge_csv_files(engine_df, open_tickets_df, previous_day_df):
     engine_df_filtered = engine_df[engine_df['is_reattempted'] == False]
