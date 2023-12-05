@@ -43,7 +43,7 @@ def main():
     open_tickets_df = st.file_uploader("Upload Current Tickets CSV File", type=['csv'], key='CurrentTicket')
 
     st.write("Upload Previous Day CSV")
-    previous_day_df = st.file_uploader("Upload Current Tickets CSV File", type=['xlsx'], key='PastTicket')
+    previous_day_df = st.file_uploader("Upload Current Tickets XLSX File", type=['xlsx'], key='PastTicket')
 
 
     if engine_df is not None and open_tickets_df is not None and previous_day_df is not None:
