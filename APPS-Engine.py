@@ -9,6 +9,7 @@ def merge_csv_files(engine_df, open_tickets_df):
     merged_df = pd.merge(engine_df_filtered, open_tickets_df, left_on='merchant_id', right_on='stax_id', how='left')
     merged_df.loc[merged_df['ticket_id'].notnull(), 'matched_id'] = 'Yes'
     merged_df.drop(['merchant_id_y', 'stax_id'], axis=1, inplace=True)
+    merged_df['Risk Action'] = ''
     return merged_df
 
 def main():
