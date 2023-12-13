@@ -29,8 +29,11 @@ def merge_csv_files(engine_df, open_tickets_df, previous_day_df):
     columns_to_drop = merged_withsettlements.columns[column_index + 1:]
     merged_withsettlements.drop(columns=columns_to_drop, inplace=True)
 
-    merged_withsettlements.drop_duplicates(inplace=True)
 
+    # Select columns A-T
+    merged_withsettlements = merged_withsettlements.iloc[:, :20]  # Assuming columns A-T are columns 0-19
+
+    merged_withsettlements.drop_duplicates(inplace=True)
 
     return merged_withsettlements
 
