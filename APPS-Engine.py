@@ -13,7 +13,8 @@ def merge_csv_files(engine_df, open_tickets_df, previous_day_df):
     engine_df_filtered = engine_df[engine_df['is_reattempted'] == False]
     engine_df_filtered['matched_id'] = 'No'
     merged_df = pd.merge(engine_df_filtered, open_tickets_df, left_on='merchant_id', right_on='stax_id', how='left')
-    merged_df.loc[merged_df['ticket_id'].notnull(), 'matched_id'] = 'Yes'
+    #merged_df.loc[merged_df['ticket_id'].notnull(), 'matched_id'] = 'Yes'
+    merged_df.loc[merged_df['settlement_id'].notnull(), 'matched_id'] = 'Yes'
     merged_df.drop(['merchant_id_y', 'stax_id'], axis=1, inplace=True)
 
     merged_df['settlement_match'] = 'No'
